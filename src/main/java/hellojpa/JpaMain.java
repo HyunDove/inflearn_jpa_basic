@@ -48,6 +48,7 @@ public class JpaMain {
             }
 
             tx.commit(); // Commit
+            
         } catch (Exception e) {
             tx.rollback();
         } finally {
