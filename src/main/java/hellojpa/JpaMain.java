@@ -22,11 +22,20 @@ public class JpaMain {
 
         try {
 
-            Member member1 = em.find(Member.class, 1L);
-            Member member2 = em.find(Member.class, 1L);
-            System.out.println("member1 = " + (member1 == member2)); // 동일성 비교 true
+            /** 준영속 테스트 */
+            /*Member member = em.find(Member.class, 1L); // 영속 상태
+            member.setName("AAAAA");
 
-            // 등록
+            em.detach(member); // 특정 엔티티만 준영속 상태로 전환
+            // em.clear(); // 영속성 컨텍스트를 완전히 초기화
+            // em.close(); // 영속성 컨텍스트를 종료
+            */
+
+            /*Member member1 = em.find(Member.class, 1L);
+            Member member2 = em.find(Member.class, 1L);
+            System.out.println("member1 = " + (member1 == member2)); // 동일성 비교 true*/
+
+            /** 등록 */
             /*Member member = new Member(); // 비영속
             member.setId(1L);
             member.setName("HelloA");
@@ -38,13 +47,13 @@ public class JpaMain {
             // 준영속 : 엔티티를 영속성 컨텍스트에서 분리, 준영속 상태
             // em.detach(member);
 
-            // 수정
+            /** 수정 */
             /*Member findMember = em.find(Member.class, 1L);
             System.out.println("findMember.id = " + findMember.getId());
             System.out.println("findMember.name = " + findMember.getName());
             findMember.setName("HelloJPA"); // Transaction Commit 시점에 Entity 변경 감지*/
 
-            // 삭제
+            /** 삭제 */
             // em.remove(findMember);
 
             /** JPQL */
@@ -58,7 +67,9 @@ public class JpaMain {
                 System.out.println("member.name = " + member.getName());
             }
 
-            tx.commit(); // Commit*/
+            */
+
+            tx.commit(); // Commit
         } catch (Exception e) {
             tx.rollback();
         } finally {
