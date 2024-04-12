@@ -21,11 +21,22 @@ public class JpaMain {
         tx.begin(); // // Transaction 시작
 
         try {
+
+            Member member1 = em.find(Member.class, 1L);
+            Member member2 = em.find(Member.class, 1L);
+            System.out.println("member1 = " + (member1 == member2)); // 동일성 비교 true
+
             // 등록
-            /*Member member = new Member();
+            /*Member member = new Member(); // 비영속
             member.setId(1L);
             member.setName("HelloA");
-            em.persist(member); // JPA 저장*/
+
+            System.out.println("=== BEFORE ===");
+            em.persist(member); // JPA 저장, 영속 상태
+            System.out.println("=== AFTER ===");*/
+
+            // 준영속 : 엔티티를 영속성 컨텍스트에서 분리, 준영속 상태
+            // em.detach(member);
 
             // 수정
             /*Member findMember = em.find(Member.class, 1L);
@@ -38,7 +49,7 @@ public class JpaMain {
 
             /** JPQL */
             // 객체 대상으로 Query
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
+            /*List<Member> result = em.createQuery("select m from Member as m", Member.class)
                             .setFirstResult(5) // Paging start : limit, rowNum
                             .setMaxResults(8) // Paging End : offset, rowNum
                             .getResultList();
@@ -47,8 +58,7 @@ public class JpaMain {
                 System.out.println("member.name = " + member.getName());
             }
 
-            tx.commit(); // Commit
-            
+            tx.commit(); // Commit*/
         } catch (Exception e) {
             tx.rollback();
         } finally {
