@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 public class JpaMain2 {
 
     public static void main(String[] args) {
@@ -29,20 +31,22 @@ public class JpaMain2 {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
             em.persist(member);
 
-            em.flush();
-            em.clear();
+            team.addMember(member); // ** 연관관계 편의 메서드
 
-            Member findMember = em.find(Member.class, member.getId());
+            // 1차 캐시를 고려해서, flush, clear를 사용하지 않는다면, 순수한 객체 관계를 고려하여 항상 양쪽 다 값을 입력해야 한다.
+            // team.getMembers().add(member); // **
 
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam = " + findTeam.getName());
+            /*em.flush();
+            em.clear();*/
 
-            //
-            Team newTeam = em.find(Team.class, 100L);
-            findMember.setTeam(newTeam);
+            Team findTeam = em.find(Team.class, team.getId()); // 1차 캐시
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("====================");
+            System.out.println("members = " + findTeam);
+            System.out.println("====================");
 
             tx.commit(); // Commit
         } catch (Exception e) {
