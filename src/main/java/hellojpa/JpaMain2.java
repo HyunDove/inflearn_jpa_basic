@@ -49,6 +49,7 @@ public class JpaMain2 {
             System.out.println("====================");
 
             tx.commit(); // Commit
+            
         } catch (Exception e) {
             tx.rollback();
         } finally {
